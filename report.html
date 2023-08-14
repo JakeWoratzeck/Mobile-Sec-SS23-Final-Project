@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wi-Fi Network Security Helper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css" />
+
+    <style>
+        h3 {
+            margin-top: 20px;
+        }
+        #vulnHeader {
+            margin-top: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">Wi-Fi Network Security Helper</h1>
+        <p class="lead text-center">
+            This report outlines cybersecurity attacks that could impact your Wi-Fi network. Explore the various types of attacks by clicking through the sections below to understand how they could affect you. Additionally, for each attack, there are recommendations on how to protect your network from that attack based on your survey responses. 
+        </p>
+
+
+        <!--special case to hide everything except the hardcoded stuff below if a user's network is NOT pw protected-->
+        <div id="noPasswordWarning" style="display:none;">
+            <h2>Warning: Wi-Fi Network NOT Password Protected!</h2>
+            <p>Your network is not password protected, meaning anyone can connect to it without entering a password. This exposes your network to a wide range of security risks. The list of attacks below may look short, but that is because your network has no security controls to attempt to bypass</p>
+            <p> <strong>Please enable a security protocol, preferably WPA3, with a strong password and then return to the survey.</strong></p>
+            
+            <h3>Interception and Eavesdropping</h3>
+            <div class="accordion" id="interceptionAccordion">
+
+
+                <!-- these only show up if a user's network isn't pw protected since the other stuff isn't really relevant -->
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingPacketSniffing">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePacketSniffing" aria-expanded="false" aria-controls="collapsePacketSniffing">
+                            Packet Sniffing
+                        </button>
+                    </h2>
+                    <div id="collapsePacketSniffing" class="accordion-collapse collapse" aria-labelledby="headingPacketSniffing" data-bs-parent="#interceptionAccordion">
+                        <div class="card-body">
+                            <p><strong>Your Risk Level:</strong> <span style="color:red;">Increased</span></p>
+                            <div>
+                                <h5>Summary</h5>
+                                <p>Packet Sniffing is a method of capturing packets on a network for analysis. This is commonly used in a benign way to troubleshoot various network problems, but it can also be used maliciously. Attackers equipped with packet sniffing tools can capture packets on a network and review their contents - potentially revealing sensitive information, like website login credentials, financial numbers, etc.</p>
+                            
+                                <p>If packets are encrypted, packet sniffing becomes much more difficult to use maliciously. In an unsecured or weakly encrypted network, bad actors can easily intercept packets and read their contents. Even on a password-protected network, an attacker who knows the network password may be able to decrypt some of the captured information. Because of this, one of the best defenses from this eavesdropping attack is to prevent untrusted people from connecting to your network in the first place and to use strong passwords for the network..</p>
+                                
+                                <p>The WPA3 protocol incorporates something called Perfect Forward Secrecy (PFS), a concept that ensures that the if one session key gets compromised, future sessions will not be able to be decrypted with the compromised key. Implementing WPA3 with PFS is a strong step in securing network traffic, ensuring that the enclosed data remains unintelligible to unauthorized users even if packets are captured.</p>
+                            </div>
+                            <h5>Recommendations:</h5>
+                            <p>Add a strong password and utilize robust security protocols to secure your network. Not having a password makes these attacks trivial to execute.</p>
+
+                            <h5>References:</h5>
+                        <p><a href="https://www.spiceworks.com/it-security/network-security/articles/what-is-packet-sniffing/" target="_blank">Spiceworks - What is Packet Sniffing?</a></p>
+                        <p><a href="https://www.wi-fi.org/beacon/the-beacon/what-s-new-in-wi-fi-security" target="_blank">Wi-Fi Alliance - What's new in Wi-Fi Security?</a></p>
+                        <p><a href="https://unit42.paloaltonetworks.com/wireshark-tutorial-decrypting-https-traffic/" target="_blank">Unit 42 - Wireshark Tutorial: Decrypting HTTPS Traffic</a></p>
+                        
+                    
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://www.wireshark.org/" target="_blank">Wireshark</a></p>
+                        <p><a href="https://www.tcpdump.org/" target="_blank">TCPdump</a></p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingMITM">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMITM" aria-expanded="false" aria-controls="collapseMITM">
+                            Man-in-the-Middle Attacks
+                        </button>
+                    </h2>
+                    <div id="collapseMITM" class="accordion-collapse collapse" aria-labelledby="headingMITM" data-bs-parent="#interceptionAccordion">
+                        <div class="card-body">
+                            <p><strong>Your Risk Level:</strong> <span style="color:red;">Increased</span></p>
+                            <div>
+                                <h5>Summary</h5>
+                                <p>Man-in-the-Middle (MITM) Attacks occur when a bad actor is fixed between two parties and intercepts traffic between them. Once packets have been intercepted, a bad actor could edit the contents of the packets and pass them along to their intended recipient with the falsified data. Additionally, the attacker could simply view the packets and pass them along without making any changes. As an example, if you are connected to a compromised Wi-Fi network, and a hacker is performing a MITM attack, they could potentially intercept traffic between you and your bank. They could edit the contents of the packets you send to transfer money to themself, rather than the intended recipient.</p>
+
+                                <p>These types of attacks typically require the bad actor to be connected to the same network as you, so using a strong security protocol like WPA3 and using a strong Wi-Fi password can help prevent a bad actor from connecting to your network in the first place. Additionally, you should always</p>
+                            </div>
+                            <h5>Recommendations:</h5>
+                            <p>Implementing a strong password and choosing a secure protocol for your network will significantly reduce the risk of Man-in-the-Middle Attacks. Not having a password makes your network highly susceptible to these threats.</p>
+
+                            <h5>References:</h5>
+                            <p><a href="https://www.imperva.com/learn/application-security/man-in-the-middle-attack-mitm/" target="_blank">Imperva - Man in the Middle (MITM) Attack</a></p>
+                            <p><a href="https://www.rapid7.com/fundamentals/man-in-the-middle-attacks/" target="_blank">Rapid7 - Man in the Middle (MITM) AttackS</a></p>
+
+                            <h5>Exploit Tools:</h5>
+                            <p><a href="https://www.ettercap-project.org/" target="_blank">Ettercap</a></p>
+                            <p><a href="https://github.com/moxie0/sslstrip" target="_blank">SSLStrip</a></p>
+                            <p><a href="https://github.com/mitmproxy/mitmproxy" target="_blank">mitmproxy</a></p>
+                            <p><a href="https://github.com/DanMcInerney/dnsspoof" target="_blank">dnsspoof</a></p>
+                            <p><a href="https://github.com/alandau/arpspoof" target="_blank">arpspoof</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            
+        
+        </div>
+        <div id="passwordCheck">
+        <!--this doesn't need to be in an accordion but it breaks if I take it out, so leave it please :) -->
+        <h3>Protocol Analysis</h3>
+        <div id="protocolAnalysisDiv"></div>
+       
+
+
+        <h3>Authentication and Access Control Attacks</h3>
+        <div class="accordion" id="authenticationAndAccessControlAccordion">
+            
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Brute Force Attack
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#authenticationAndAccessControlAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="bruteForceRiskLevel">Increased</span></p>
+                        
+                        <div>
+                        <h5>Summary</h5>
+                        <p>A brute force attack is a trial-and-error method hackers use to attempt to gain access to a system or network. The attacker will try every possible combination of passwords until the correct one is found. For example, if a password consists of three numbers, a brute force attack would start by trying "000," then "001," "002," and so on until they have exhausted all options or discovered the password.</p>
+                        <p>The effectiveness of a brute force attack depends GREATLY on the complexity and length of the password. Short passwords without complexity can be cracked almost instantly, while longer passwords with mixed characters (e.g., uppercase, lowercase, numbers, symbols) take significantly longer to break. Each character added to a password exponentially increases the time it takes to brute force a password, so the longer the password, the better!</p>
+                        <p>Using a long, complex password is a great way to increase the time it would take to carry out a brute-force attack and potentially make it infeasible for an attacker to carry it out. Additionally, using the WPA3 protocol can further enhance security as it protects against brute-force attacks!</p>
+
+
+                        <div id="passwordAnalysis" class="mt-4">
+
+                        </div>
+                        
+                        </div>
+                        <h5>Recommendations:</h5>
+                        <div id="bruteForcePasswordRec">
+                        </div>
+
+                        <h5>References:</h5>
+                        <p><a href="https://www.hivesystems.io/blog/are-your-passwords-in-the-green" target="_blank">Hive Systems - Are Your Passwords in the Green?</a></p>
+                        <p><a href="https://www.imperva.com/learn/application-security/brute-force-attack/" target="_blank">Imperva - Brute Force Attack</a></p>
+                        <p><a href="https://encyclopedia.kaspersky.com/glossary/brute-force/" target="_blank">Kaspersky - Brute-Force Attack</a></p>
+
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://github.com/vanhauser-thc/thc-hydra" target="_blank">Hydra</a></p>
+                        <p><a href="https://github.com/hashcat/hashcat" target="_blank">Hashcat</a></p>
+                        <p><a href="https://github.com/openwall/john" target="_blank">John the Ripper</a></p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingDictionary">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDictionary" aria-expanded="false" aria-controls="collapseDictionary">
+                        Dictionary Attacks
+                    </button>
+                </h2>
+                <div id="collapseDictionary" class="accordion-collapse collapse" aria-labelledby="headingDictionary" data-bs-parent="#authenticationAndAccessControlAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="dictionaryAttackRiskLevel"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>A Dictionary Attack is similar to a brute-force attack in that it involves trying lots of different options until figuring out the correct password, but a dictionary attack uses a pre-created list of phrases rather than iterating through every character combination. Dictionaries, or word lists, of common passwords are very widespread and are commonly created by analyzing lists of passwords from real data breaches. Dictionary attacks are much faster than a brute-force attack as they are trying less combinations overall, but a hacker runs the risk of a password not being present on the word list - leading the attack to fail. </p>
+                            <p>Because of the nature of how dictionary attacks work, using a password based on common words or phrases can be easily guessed using a dictionary attack as it is very likely that it exists on a word list somewhere. Here is an example of a <a href="https://github.com/danielmiessler/SecLists/blob/master/Passwords/WiFi-WPA/probable-v2-wpa-top4800.txt" target="_blank">common password list</a> used in such attacks.</p>
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="dictionaryAttackRec">
+                        </div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://nordpass.com/blog/what-is-a-dictionary-attack/" target="_blank">NordPass - Learning Password Security Jargon: Dictionary Attack</a></p>
+                        <p><a href="https://encyclopedia.kaspersky.com/glossary/dictionary-attack/" target="_blank">Kaspersky - Dictionary Attack</a></p>
+                    
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://github.com/danielmiessler/SecLists" target="_blank">Github - SecLists</a></p>
+                        <p><a href="https://github.com/vanhauser-thc/thc-hydra" target="_blank">Hydra</a></p>
+                        <p><a href="https://github.com/hashcat/hashcat" target="_blank">Hashcat</a></p>
+                        <p><a href="https://github.com/openwall/john" target="_blank">John the Ripper</a></p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingRogueAPs">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRogueAPs" aria-expanded="false" aria-controls="collapseRogueAPs">
+                        Rogue Access Points (APs)
+                    </button>
+                </h2>
+                <div id="collapseRogueAPs" class="accordion-collapse collapse" aria-labelledby="headingRogueAPs" data-bs-parent="#authenticationAndAccessControlAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="rogueAPRiskLevel"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>A Rogue Access Point (AP) is a wireless access point installed on a network without permission from the network's owner or administrator. A rogue AP could potentially be set up by anyone with physical access to your networking equipment, such as your router.</p>
+                            <p>Rogue APs are essentially creating a tunnel through your existing Wi-Fi security controls. For example, if you have a Wi-Fi network with a strong password, but someone is able to directly plug an access point into your router that is configured without a password, anyone nearby could connect to that access point and be on your network! This unauthorized access could lead to data theft or other malicious activities like installing malware on computers connected to the network. Once a hacker is connected to a network, a wide number of attacks become possible!</p>
+                            <p>Protection against rogue APs primarily relies on securing physical access to the network. Ensuring networking equipment is located in a secure area, restricted to only people you trust, and regularly inspecting networking equipment for signs a rogue AP may have been plugged in. If you ever see a suspicious device plugged into networking equipment, it is possible it could be a rogue AP and should be investigated further immediately.</p>
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="rogueAPRec">
+                        </div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://it-explained.com/words/rogue-access-points-explained-explained" target="_blank">IT Explained - Rogue Access Points Explained</a></p>
+                        <p><a href="https://www.firewalls.com/blog/security-terms/rogue-access-point/" target="_blank">Firewalls.com Security Blog - Rogue Access Point</a></p>
+                    
+                    
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingEvilTwin">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvilTwin" aria-expanded="false" aria-controls="collapseEvilTwin">
+                        Evil Twin Attacks
+                    </button>
+                </h2>
+                <div id="collapseEvilTwin" class="accordion-collapse collapse" aria-labelledby="headingEvilTwin" data-bs-parent="#authenticationAndAccessControlAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span style="color:orange;">Normal</span></p>
+                        
+                        
+                            <h5>Summary</h5>
+                            <p>Evil Twin Attacks involve a malicious actor setting up a Wi-Fi network using the same Service Set Identifier (SSID) (the "name" of a Wi-Fi network) as a legitimate network. This attack aims to get an unsuspecting user to connect to the duplicate network rather than the legitimate, trusted one. Often, the malicious network will be set up with a captive portal designed to trick users into providing credentials for the real network. When the user is connected, a bad actor can monitor traffic, steal a user's data, perform man-in-the-middle attacks, forward users to malicious sites, etc.</p>
+                        
+                        
+                        <h5>Recommendations:</h5>
+                        <p>The best way to avoid connecting to an evil twin network is to be mindful of the network you are connecting to. For example, if your home network is password protected, but you see a network with the same name that is not password protected, an evil twin attack could be taking place. Avoid connecting to these networks, and generally, avoid insecure or public Wi-Fi networks entirely if possible. Using your cell phone as a personal hotspot or using a virtual private network (VPN) are good ways to protect yourself.</p>
+                        <p>Another way to help protect against these attacks is by hiding your SSID from being broadcasted. Doing so will make it less likely that an attacker would know the name of your network to create an evil twin version of it.</p>
+                        <p> Also, You should heed any warnings your device or browser may present about insecure networks or if you see certificate errors, which may indicate a man-in-the-middle attack is occurring and you have connected to an evil twin network.</p>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://www.varonis.com/blog/evil-twin-attack" target="_blank">Varonis - Evil Twin Attack: What it is, How to Detect & Prevent it</a></p>
+                        <p><a href="https://www.okta.com/identity-101/evil-twin-attack/" target="_blank">Okta - Evil Twin Attack: Fake Wi-Fi Access Point Vulnerabilities</a></p>
+                        <p><a href="https://www.cisa.gov/news-events/news/securing-wireless-networks" target="_blank">CISA - Securing Wireless Networks</a></p>
+                    
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://github.com/v1s1t0r1sh3r3/airgeddon/wiki/Features" target="_blank">Airgeddon</a></p>
+                        <p><a href="https://www.aircrack-ng.org/doku.php?id=airbase-ng" target="_blank">Airbase-ng</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <h3>Interception and Eavesdropping</h3>
+        <div class="accordion" id="interceptionAccordion">
+            
+            
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingPacketSniffing">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePacketSniffing" aria-expanded="false" aria-controls="collapsePacketSniffing">
+                        Packet Sniffing
+                    </button>
+                </h2>
+                <div id="collapsePacketSniffing" class="accordion-collapse collapse" aria-labelledby="headingPacketSniffing" data-bs-parent="#interceptionAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="packetSniffingRiskLevel" style="color:orange;"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>Packet Sniffing is a method of capturing packets on a network for analysis. This is commonly used in a benign way to troubleshoot various network problems, but it can also be used maliciously. Attackers equipped with packet sniffing tools can capture packets on a network and review their contents - potentially revealing sensitive information, like website login credentials, financial numbers, etc.</p>
+                            
+                            <p>If packets are encrypted, packet sniffing becomes much more difficult to use maliciously. In an unsecured or weakly encrypted network, bad actors can easily intercept packets and read their contents. Even on a password-protected network, an attacker who knows the network password may be able to decrypt some of the captured information. Because of this, one of the best defenses from this eavesdropping attack is to prevent untrusted people from connecting to your network in the first place and to use strong passwords for the network..</p>
+                            
+                            <p>The WPA3 protocol incorporates something called Perfect Forward Secrecy (PFS), a concept that ensures that the if one session key gets compromised, future sessions will not be able to be decrypted with the compromised key. Implementing WPA3 with PFS is a strong step in securing network traffic, ensuring that the enclosed data remains unintelligible to unauthorized users even if packets are captured.</p>
+
+
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="packetSniffingRec"></div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://www.spiceworks.com/it-security/network-security/articles/what-is-packet-sniffing/" target="_blank">Spiceworks - What is Packet Sniffing?</a></p>
+                        <p><a href="https://www.wi-fi.org/beacon/the-beacon/what-s-new-in-wi-fi-security" target="_blank">Wi-Fi Alliance - What's new in Wi-Fi Security?</a></p>
+                        <p><a href="https://unit42.paloaltonetworks.com/wireshark-tutorial-decrypting-https-traffic/" target="_blank">Unit 42 - Wireshark Tutorial: Decrypting HTTPS Traffic</a></p>
+                        
+                    
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://www.wireshark.org/" target="_blank">Wireshark</a></p>
+                        <p><a href="https://www.tcpdump.org/" target="_blank">TCPdump</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingMITM">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMITM" aria-expanded="false" aria-controls="collapseMITM">
+                        Man-in-the-Middle Attacks
+                    </button>
+                </h2>
+                <div id="collapseMITM" class="accordion-collapse collapse" aria-labelledby="headingMITM" data-bs-parent="#interceptionAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="mitmRiskLevel" style="color:orange;"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>Man-in-the-Middle (MITM) Attacks occur when a bad actor is fixed between two parties and intercepts traffic between them. Once packets have been intercepted, a bad actor could edit the contents of the packets and pass them along to their intended recipient with the falsified data. Additionally, the attacker could simply view the packets and pass them along without making any changes. As an example, if you are connected to a compromised Wi-Fi network, and a hacker is performing a MITM attack, they could potentially intercept traffic between you and your bank. They could edit the contents of the packets you send to transfer money to themself, rather than the intended recipient.</p>
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="mitmRecommendations"></div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://www.imperva.com/learn/application-security/man-in-the-middle-attack-mitm/" target="_blank">Imperva - Man in the Middle (MITM) Attack</a></p>
+                        <p><a href="https://www.rapid7.com/fundamentals/man-in-the-middle-attacks/" target="_blank">Rapid7 - Man in the Middle (MITM) AttackS</a></p>
+
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://www.ettercap-project.org/" target="_blank">Ettercap</a></p>
+                        <p><a href="https://github.com/moxie0/sslstrip" target="_blank">SSLStrip</a></p>
+                        <p><a href="https://github.com/mitmproxy/mitmproxy" target="_blank">mitmproxy</a></p>
+                        <p><a href="https://github.com/DanMcInerney/dnsspoof" target="_blank">dnsspoof</a></p>
+                        <p><a href="https://github.com/alandau/arpspoof" target="_blank">arpspoof</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+        <h3>Other Attacks</h3>
+        <div class="accordion" id="otherAttacksAccordion">
+            
+            
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingPhysicalAccess">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhysicalAccess" aria-expanded="false" aria-controls="collapsePhysicalAccess">
+                        Unauthorized Physical Access
+                    </button>
+                </h2>
+                <div id="collapsePhysicalAccess" class="accordion-collapse collapse" aria-labelledby="headingPhysicalAccess" data-bs-parent="#otherAttacksAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="physicalAccessRiskLevel" style="color:orange;"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>Unauthorized Physical Access refers to the risk gaining direct access to your network through physical access to a piece of networking equipment like a router or an access point. A hacker can totally bypass any Wi-Fi security controls you may have set up by directly connecting an Ethernet cable to a networking devices. This could allow them to make changes to network configurations, distribute malware to other systems on the network, they could physically tamper with devices to cause service disruption, etc. Once a bad actor is connected to a network, a myriad of potential attacks become possible. A bad actor could potentially also leave a device plugged into your networking equipment, which could give them persistent access to your network even after they leave.</p>
+
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="physicalAccessRec"></div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://www.genieall.com/physical-security-threats/" target="_blank">genieall - Physical Security Threats</a></p>
+                        <p><a href="https://www.cisa.gov/news-events/news/securing-wireless-networks" target="_blank">CISA - Securing Wireless Networks</a></p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingWPSAttacks">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWPSAttacks" aria-expanded="false" aria-controls="collapseWPSAttacks">
+                        WPS Attacks
+                    </button>
+                </h2>
+                <div id="collapseWPSAttacks" class="accordion-collapse collapse" aria-labelledby="headingWPSAttacks" data-bs-parent="#otherAttacksAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="WPSRiskLevel" style="color:orange;"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>WPS Attacks target the Wi-Fi Protected Setup (WPS) feature on many routers or access points. There are two main types of WPS attacks:</p>
+                            <ul>
+                                <li><strong>PIN Attack:</strong> The PIN used by WPS is vulnerable to a brute force attack - allowing attackers to gain access to your network without knowing your Wi-Fi password. These brute force attacks can take as little as a few hours to complete with readily accessible tools.</li>
+                                <li><strong>Push-Button Attack:</strong> If an attacker can get physically close to a router or access point with a WPS push button, they can easily join a device to the network by simply pressing the button.</li>
+                            </ul>
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="WPSRecommendation">
+                        </div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://www.wi-fi.org/knowledge-center/faq/how-does-wi-fi-protected-setup-work" target="_blank">Wi-Fi Alliance - How does Wi-Fi Protected Setup work?</a></p>
+                        <p><a href="https://www.cisa.gov/news-events/alerts/2012/01/06/wi-fi-protected-setup-wps-vulnerable-brute-force-attack" target="_blank">CISA - Wi-Fi Protected Setup (WPS) Vulnerable to Brute-Force Attack</a></p>
+                        <p><a href="https://outpost24.com/blog/wps-cracking-with-reaver/" target="_blank">Outpost24 - WPS Cracking with Reaver</a></p>
+                    
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://github.com/t6x/reaver-wps-fork-t6x" target="_blank">Reaver</a></p>
+                        <p><a href="https://github.com/wiire-a/pixiewps" target="_blank">Pixiewps</a></p>
+                    </div>
+                </div>
+            </div>
+            
+
+
+
+
+            <!--This only shows up if someone picks WPA2 for their protocol-->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingKRACK">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKRACK" aria-expanded="false" aria-controls="collapseKRACK">
+                        KRACK Attacks
+                    </button>
+                </h2>
+                <div id="collapseKRACK" class="accordion-collapse collapse" aria-labelledby="headingKRACK" data-bs-parent="#otherAttacksAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="KRACKRiskLevel"></span></p>
+                        
+                        
+                            <h5>Summary</h5>
+                            The Key Reinstallation Attacks, known as the KRACK Attacks, were discovered in 2017 and affect both WPA and WPA2-protected networks. An attacker can manipulate the 4-way handshake these protocols use to establish a secure connection, and force it to reuse encryption keys. If hackers determine the encryption key, they can decrypt traffic on a network, potentially revealing sensitive information like passwords, which could then be used to compromise your accounts. Additionally, an attacker may be able to inject their own malicious content into the traffic, like links to sites to download malware!</p>
+
+                            <p>Patches have been released to address the KRACK vulnerabilities for lots of networking and client devices. Ensure that your devices are regularly updated with security patches. Patch availability for the KRACK vulnerabilities will vary on a manufacture-by-manufacture basis. A large list of patch availability can be found <a href="https://github.com/kristate/krackinfo#vendor-response-completee" target="_blank">here</a></p>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="KRACKRec"></div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://www.krackattacks.com/" target="_blank">KRACK Attacks Official Website</a></p>
+
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://github.com/vanhoefm/krackattacks-scripts" target="_blank">KRACK Attack Scripts</a></p>
+
+                    </div>
+                </div>
+            </div>
+            
+
+
+
+
+            <!--This only shows up if someone picks WPA3 for their protocol-->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingDragonblood">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDragonblood" aria-expanded="false" aria-controls="collapseDragonblood">
+                        Dragonblood Attacks
+                    </button>
+                </h2>
+                <div id="collapseDragonblood" class="accordion-collapse collapse" aria-labelledby="headingDragonblood" data-bs-parent="#otherAttacksAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="dragonRiskLevel"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>The Dragonblood Attacks refer to a group of vulnerabilities discovered in 2019. The vulnerabilities can be split into two main categories: downgrade attacks and weaknesses in the protocol's Dragonfly (SAE) handshake.
+                                
+                            The downgrade attacks force WPA3 devices to downgrade to weaker security standards or protocols. The first of these only affects networks using the WPA3-Transition mode, which allows a network to support both WPA2 and WPA3 to ensure compatibility with client devices. Downgrading from WPA3 to WPA2 could open up a network to password cracking attacks to recover the Wi-Fi password. The second downgrade attack focuses on downgrading the security group used by client devices, weakening the encryption used to protect network traffic and potentially allowing an attacker to decrypt traffic. 
+                            
+                            The second category includes vulnerabilities that exist within the Dragonfly handshake itself. Two are side-channel attacks that may allow an attacker to determine the network password. Within this category, there is also a resource consumption attack that can lead to denial of service—using up too many resources on the access point and preventing legitimate use of the network.
+
+                            The researchers that discovered the vulnerabilities also discovered vulnerabilities in the EAP-pwd protocol commonly used in enterprise Wi-Fi networks. These additional vulnerabilities are related to elliptic curve cryptography and could allow an attacker to completely bypass authentication or authenticate as another user on a network that is configured with the EAP-pwd protocol.</p>
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="dragonRec"></div>
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://wpa3.mathyvanhoef.com/" target="_blank">Dragonblood Attacks Official Website</a></p>
+
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://github.com/vanhoefm/dragondrain-and-time" target="_blank">Dragondrain and Dragontime</a></p>
+                        <p><a href="https://github.com/vanhoefm/dragonslayer" target="_blank">Dragonslayer</a></p>
+                        <p><a href="https://github.com/vanhoefm/dragonforce" target="_blank">Dragonforce</a></p>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFRAG">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFRAG" aria-expanded="false" aria-controls="collapseFRAG">
+                        FRAG Attacks
+                    </button>
+                </h2>
+                <div id="collapseFRAG" class="accordion-collapse collapse" aria-labelledby="headingFRAG" data-bs-parent="#otherAttacksAccordion">
+                    <div class="card-body">
+                        <p><strong>Your Risk Level:</strong> <span id="FRAGRiskLevel"></span></p>
+                        
+                        <div>
+                            <h5>Summary</h5>
+                            <p>The FRAG attacks, or Fragmentation and Aggregation attacks, were discovered in 2021 and stem from weaknesses in the design of the Wi-Fi protocol, not the security protocols like WPA or WPA2. This means potentially every Wi-Fi network ever created has been vulnerable at some point! These vulnerabilities are due to the Wi-Fi protocols mishandling fragmented and aggregated data frames over Wi-Fi. Fragmentation refers to the process of breaking larger packets into smaller packets for transmission, and aggregation refers to the opposite - combining multiple small packets into a single larger packet. By intentionally taking advantage of the protocol mishandling these messages, the researchers discovered that there are two things that can be accomplished: interception of sensitive data, and accessing devices on a Wi-Fi network, even if the Wi-Fi password is not known. The researchers point out that internet-of-things (IoT) devices are especially at risk of being comrpomised as they are rarely updated. This is especially dangerous as compromising a device on a network can allow an attacker to pivot to other systems on the network and carry out a wide array of attacks.</p>
+                        </div>
+                        
+                        <h5>Recommendations:</h5>
+                        <div id="FRAGRec"></div>
+                        
+                    
+                        <h5>References:</h5>
+                        <p><a href="https://www.fragattacks.com/" target="_blank">FRAG Attacks</a></p>
+            
+                        <h5>Exploit Tools:</h5>
+                        <p><a href="https://github.com/vanhoefm/fragattacks" target="_blank">FRAG Attacks</a></p>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+        <!--COME BACK HERE, THIS NEEDS LOOKED AT-->
+        <h3 id="vulnHeader">Related Vulnerabilities</h3>
+        <p>This table provides a curated list of various vulnerabilities related to Wi-Fi that have been disclosed. This is intended to be a reference, and is not indicative that your network is affected by these. Review the CVE listings to determine the vulnerability status of your network.</p>
+
+        <table id="vulnerabilitiesTable" class="table table-striped mt-4" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Threat Name</th>
+                    <th>Threat ID</th>
+                    <th>Summary</th>
+                    <th>CVSS Score</th>
+                    <th>Vulnerability Documentation</th>
+
+                </tr>
+            </thead>
+        </table>
+        <a href="/" class="btn btn-secondary mt-2">Go Back</a>
+    </div>
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
